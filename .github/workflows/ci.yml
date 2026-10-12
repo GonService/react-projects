@@ -1,0 +1,100 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  support-dashboard:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: support-dashboard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: support-dashboard/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: docker build -t support-dashboard .
+
+  booking-widget:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: booking-widget
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: booking-widget/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: docker build -t booking-widget .
+
+  kanban-board:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: kanban-board
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: kanban-board/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: docker build -t kanban-board .
+
+  quote-generator:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: quote-generator
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: quote-generator/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: docker build -t quote-generator .
+
+  metrics-dashboard:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: metrics-dashboard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: metrics-dashboard/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: docker build -t metrics-dashboard .
